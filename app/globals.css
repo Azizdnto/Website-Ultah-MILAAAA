@@ -30,3 +30,20 @@ body {
 .text-shadow-soft {
   text-shadow: 0 4px 18px rgba(255, 111, 145, 0.25);
 }
+
+/* Cegah blok/seleksi & copy di seluruh halaman */
+html,
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Cegah drag & long-press save pada gambar */
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}

@@ -1,5 +1,6 @@
 import { Poppins, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import NoCopy from "@/components/NoCopy";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="id">
       <body className={`${poppins.variable} ${playfair.variable} font-sans`}>
+        <NoCopy />
         {children}
       </body>
     </html>
