@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SpreadText from "@/components/SpreadText";
+import { TARGET } from "@/data/birthday";
 
 // Confetti mandiri berbasis canvas (tanpa library tambahan).
 function launchConfetti() {
@@ -70,10 +71,6 @@ const hintTrans = { delay: 0.35 };
 const btnTrans = { delay: 0.55 };
 const btnHover = { scale: 1.07 };
 const btnTap = { scale: 0.94 };
-
-// Tanggal kejutan bisa dibuka (tahun, bulan [11 = Desember], tanggal).
-// Ubah tahunnya bila perlu untuk tahun berikutnya.
-const TARGET = new Date(2026, 11, 2, 0, 0, 0);
 
 const countdownInit = { opacity: 0, y: 16 };
 const countdownAnim = { opacity: 1, y: 0 };

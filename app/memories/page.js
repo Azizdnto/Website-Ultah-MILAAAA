@@ -3,7 +3,9 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { memories } from "@/data/memories";
+import { TARGET } from "@/data/birthday";
 
 const cardInit = { opacity: 0, x: 80, scale: 0.95 };
 const cardShow = { opacity: 1, x: 0, scale: 1 };
@@ -28,6 +30,8 @@ export default function MemoriesPage() {
   const [index, setIndex] = useState(0);
   const [auto, setAuto] = useState(true);
   const [playing, setPlaying] = useState(false);
+  const [allowed, setAllowed] = useState(false);
+  const router = useRouter();
   const audioRef = useRef(null);
   const total = memories.length;
   const m = memories[index];
@@ -44,13 +48,25 @@ export default function MemoriesPage() {
     return () => clearTimeout(t);
   }, [index, auto, total]);
 
+  // Kunci halaman: kalau belum waktunya, lempar balik ke halaman utama
+  // (yang menampilkan hitung mundur). Mencegah pengunjung membuka /memories
+  // langsung sebelum tanggal kejutan.
+  useEffect(() => {
+    if (Date.now() < TARGET.getTime()) {
+      router.replace("/");
+    } else {
+      setAllowed(true);
+    }
+  }, [router]);
+
   // Coba putar lagu saat halaman dibuka (jika diizinkan browser).
   useEffect(() => {
+    if (!allowed) return;
     const a = audioRef.current;
     if (!a) return;
     a.volume = 0.5;
     a.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
-  }, []);
+  }, [allowed]);
 
   const toggleMusic = useCallback(() => {
     const a = audioRef.current;
@@ -62,6 +78,9 @@ export default function MemoriesPage() {
       setPlaying(false);
     }
   }, []);
+
+  // Selama pengecekan / saat belum waktunya, jangan tampilkan apa pun.
+  if (!allowed) return null;
 
   return (
     <main className="relative mx-auto flex min-h-screen max-w-3xl flex-col px-6 py-12">
